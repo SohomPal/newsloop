@@ -5,17 +5,20 @@ import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { ModeToggle } from '@/components/mode-toggle'
 import SignUpModal from '@/components/signup-modal'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetHeader,
+  SheetTitle,
 } from "@/components/ui/sheet"
 
 const Navbar = () => {
   const pathname = usePathname()
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -24,7 +27,11 @@ const Navbar = () => {
     { name: 'About', path: '/about' },
   ]
 
-  const NavLinks = () => (
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [pathname])
+
+  const NavLinks = ({ onNavigation }: { onNavigation?: () => void }) => (
     <>
       {navItems.map((item) => (
         <Link
@@ -33,6 +40,7 @@ const Navbar = () => {
           className={`hover:text-primary transition-colors ${
             pathname === item.path ? 'text-primary font-semibold' : ''
           }`}
+          onClick={onNavigation}
         >
           {item.name}
         </Link>
@@ -44,15 +52,18 @@ const Navbar = () => {
     <nav className="border-b bg-gradient-to-r from-blue-500 to-purple-600 text-white">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Sheet>
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[240px] sm:w-[300px]">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              </SheetHeader>
               <div className="flex flex-col space-y-4 mt-8">
-                <NavLinks />
+                <NavLinks onNavigation={() => setIsMenuOpen(false)} />
               </div>
             </SheetContent>
           </Sheet>
