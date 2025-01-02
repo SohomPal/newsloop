@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { ModeToggle } from '@/components/mode-toggle'
-import SignUpModal from '@/components/signup-modal'
 import { useState, useEffect } from 'react'
 import { Menu } from 'lucide-react'
 import {
@@ -14,6 +13,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
+import { SignUpModal } from './signup-modal'
 
 const Navbar = () => {
   const pathname = usePathname()

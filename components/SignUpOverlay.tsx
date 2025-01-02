@@ -1,17 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-// import { signIn } from 'next-auth/react'
 
 interface SignUpOverlayProps {
   onClose: () => void
+  onSignUp: () => void
 }
 
-export function SignUpOverlay({ onClose }: SignUpOverlayProps) {
-  const handleSignUp = () => {
-    console.log('Sign up clicked');
-    onClose();
-  }
-
+export function SignUpOverlay({ onClose, onSignUp }: SignUpOverlayProps) {
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
       <Card className="w-[90%] max-w-md mx-auto">
@@ -32,7 +27,7 @@ export function SignUpOverlay({ onClose }: SignUpOverlayProps) {
             <li>Daily news digest delivered to your inbox</li>
           </ul>
           <div className="flex gap-4 pt-4">
-            <Button onClick={handleSignUp} className="flex-1">
+            <Button onClick={onSignUp} className="flex-1">
               Sign Up Now
             </Button>
             <Button variant="outline" onClick={onClose} className="flex-1">

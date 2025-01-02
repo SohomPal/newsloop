@@ -12,9 +12,6 @@ function timeSincePublished(datePublished: any): string {
    
     const publishedTime = Date.parse(datePublished); // Convert ISO string to timestamp
     const currentTime = Date.now(); // Get current UTC timestamp
-  
-    // Calculate the difference in milliseconds
-    console.log([datePublished, publishedTime, currentTime])
     const diffInMilliseconds = currentTime - publishedTime;
   
     if (diffInMilliseconds < 0) {

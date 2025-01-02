@@ -1,60 +1,42 @@
-'use client'
-
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ChromeIcon as Google, ComputerIcon as Microsoft } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 
 interface SignUpModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const SignUpModal: React.FC<SignUpModalProps> = ({ isOpen, onClose }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+export function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
+  const handleGoogleSignIn = () => {
+    console.log('Sign in with Google');
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle sign up logic here
-    console.log('Sign up with:', email, password)
-    onClose()
-  }
+  const handleMicrosoftSignIn = () => {
+    console.log('Sign in with Microsoft');
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Sign Up for NewsLoop</DialogTitle>
+          <DialogTitle>Sign Up or Sign In</DialogTitle>
+          <DialogDescription>
+            Choose your preferred method to create an account or sign in.
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full">Sign Up</Button>
-        </form>
+        <div className="flex flex-col gap-4 py-4">
+          <Button onClick={handleGoogleSignIn} className="flex items-center justify-center gap-2">
+            <Google className="h-5 w-5" />
+            Sign in with Google
+          </Button>
+          <Button onClick={handleMicrosoftSignIn} className="flex items-center justify-center gap-2">
+            <Microsoft className="h-5 w-5" />
+            Sign in with Microsoft
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-
-export default SignUpModal
-

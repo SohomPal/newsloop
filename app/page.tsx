@@ -5,6 +5,8 @@ import { NewsCard } from '@/components/NewsCard'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { NewsArticle } from '@/types/NewsArticle'
 import { SignUpOverlay } from '@/components/SignUpOverlay'
+import { SignUpModal } from '@/components/signup-modal'
+
 // import { useSession } from 'next-auth/react'
 
 export default function Home() {
@@ -13,6 +15,7 @@ export default function Home() {
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(true)
   const [showSignUpPrompt, setShowSignUpPrompt] = useState(false)
+  const [showSignUpModal, setShowSignUpModal] = useState(false)
   // const { data: session } = useSession()
   const session = null // Placeholder for session, replace with actual session management later
 
@@ -24,7 +27,7 @@ export default function Home() {
     async function fetchNews() {
       try {
         setIsLoading(true)
-        const response = await fetch(`/api/news?page=${page}`)
+        const response = await fetch(`api/news?page=${page}`)
         if (!response.ok) {
           throw new Error('Failed to fetch news')
         }
@@ -94,8 +97,19 @@ export default function Home() {
             setShowSignUpPrompt(false);
             toggleBodyScroll(false);
           }} 
+          onSignUp={() => {
+            setShowSignUpPrompt(false);
+            setShowSignUpModal(true);
+          }}
         />
       )}
+      <SignUpModal 
+        isOpen={showSignUpModal} 
+        onClose={() => {
+          setShowSignUpModal(false);
+          toggleBodyScroll(false);
+        }} 
+      />
     </div>
   )
 }
