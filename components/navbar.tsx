@@ -14,11 +14,18 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { SignUpModal } from './signup-modal'
+import { Session } from 'next-auth'
+import { signOut } from 'next-auth/react'
 
-const Navbar = () => {
+interface NavbarProps {
+    session: Session | null;
+  }  
+
+const Navbar = ({ session }: NavbarProps) => {
   const pathname = usePathname()
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  //const { data: session, status } = useSession();
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -75,7 +82,15 @@ const Navbar = () => {
           <NavLinks />
         </div>
         <div className="flex items-center space-x-4">
-          <Button onClick={() => setIsSignUpOpen(true)} variant="secondary" className="bg-white text-blue-600 hover:bg-blue-100">Sign Up</Button>
+        {session ? (
+            <Button onClick={() => signOut()} variant="secondary" className="bg-white text-blue-600 hover:bg-blue-100">
+              Sign Out
+            </Button>
+          ) : (
+            <Button onClick={() => setIsSignUpOpen(true)} variant="secondary" className="bg-white text-blue-600 hover:bg-blue-100">
+              Sign In
+            </Button>
+          )}
           <ModeToggle />
         </div>
       </div>

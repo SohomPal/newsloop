@@ -7,7 +7,7 @@ import { NewsArticle } from '@/types/NewsArticle'
 import { SignUpOverlay } from '@/components/SignUpOverlay'
 import { SignUpModal } from '@/components/signup-modal'
 
-// import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 export default function Home() {
   const [articles, setArticles] = useState<NewsArticle[]>([])
@@ -16,8 +16,7 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(true)
   const [showSignUpPrompt, setShowSignUpPrompt] = useState(false)
   const [showSignUpModal, setShowSignUpModal] = useState(false)
-  // const { data: session } = useSession()
-  const session = null // Placeholder for session, replace with actual session management later
+  const { data: session } = useSession()
 
   const toggleBodyScroll = useCallback((disable: boolean) => {
     document.body.style.overflow = disable ? 'hidden' : 'unset';
@@ -69,6 +68,8 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isLoading, hasMore])
+
+  console.log({session})
 
   return (
     <div>

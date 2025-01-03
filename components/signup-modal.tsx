@@ -9,8 +9,9 @@ interface SignUpModalProps {
 }
 
 export function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     console.log('Sign in with Google');
+    await signIn('google'); // Redirects to homepage after successful sign-in
   };
 
   const handleMicrosoftSignIn = () => {
