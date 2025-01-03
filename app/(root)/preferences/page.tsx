@@ -1,46 +1,105 @@
 'use client'
 
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { AuthCheck } from '@/components/auth-check'
 
 export default function Preferences() {
-  const [interests, setInterests] = useState({
-    technology: false,
-    science: false,
-    politics: false,
-    sports: false,
-    entertainment: false,
-  })
+  const { data: session } = useSession()
+  const [interests, setInterests] = useState([
+    'Technology',
+    'Science',
+    'Politics',
+    'Sports',
+    'Entertainment',
+    'Business',
+    'Health',
+    'Education',
+    'Travel',
+    'Food',
+  ])
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([])
 
-  const handleInterestChange = (interest: keyof typeof interests) => {
-    setInterests((prev) => ({ ...prev, [interest]: !prev[interest] }))
+  const handleInterestToggle = (interest: string) => {
+    setSelectedInterests((prev) =>
+      prev.includes(interest)
+        ? prev.filter((i) => i !== interest)
+        : [...prev, interest]
+    )
   }
 
   const handleSave = () => {
-    // Save preferences logic here
-    console.log('Saved preferences:', interests)
+    console.log('Saved preferences:', selectedInterests)
   }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Your Preferences</h1>
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Interests</h2>
-        {Object.entries(interests).map(([key, value]) => (
-          <div key={key} className="flex items-center space-x-2">
-            <Checkbox
-              id={key}
-              checked={value}
-              onCheckedChange={() => handleInterestChange(key as keyof typeof interests)}
-            />
-            <Label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
-          </div>
-        ))}
-        <Button onClick={handleSave}>Save Preferences</Button>
+    <AuthCheck>
+      <div className="container mx-auto px-4 py-8">
+        <Card className="mb-8">
+          <CardHeader className="flex flex-row items-center gap-4">
+            <Avatar className="h-20 w-20">
+              {session?.user?.image ? (
+                <AvatarImage
+                  src={session.user.image}
+                  alt={session?.user?.name || 'User'}
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <AvatarFallback>{session?.user?.name?.[0] || 'U'}</AvatarFallback>
+              )}
+            </Avatar>
+            <div>
+              <CardTitle className="text-2xl">{session?.user?.name || 'Welcome'}</CardTitle>
+              <p className="text-muted-foreground">Customize your news experience</p>
+            </div>
+          </CardHeader>
+        </Card>
+
+        <Tabs defaultValue="interests" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="interests">Interests</TabsTrigger>
+            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          </TabsList>
+          <TabsContent value="interests">
+            <Card>
+              <CardHeader>
+                <CardTitle>Select Your Interests</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {interests.map((interest) => (
+                    <Badge
+                      key={interest}
+                      variant={selectedInterests.includes(interest) ? 'default' : 'outline'}
+                      className="cursor-pointer text-sm py-1 px-3"
+                      onClick={() => handleInterestToggle(interest)}
+                    >
+                      {interest}
+                    </Badge>
+                  ))}
+                </div>
+                <Button onClick={handleSave} className="w-full">Save Preferences</Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="notifications">
+            <Card>
+              <CardHeader>
+                <CardTitle>Notification Settings</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Notification settings coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
-    </div>
+    </AuthCheck>
   )
 }
 

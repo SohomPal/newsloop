@@ -69,8 +69,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isLoading, hasMore])
 
-  console.log({session})
-
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">
