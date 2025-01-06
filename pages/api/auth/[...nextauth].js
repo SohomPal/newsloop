@@ -21,6 +21,8 @@ async function createUserIfNotExists(user) {
         email: user.email,
         image: user.image,
         createdAt: new Date(),
+        preferences: [],
+        interactionHistory: []
       };
       await usersCollection.insertOne(newUser);
     }

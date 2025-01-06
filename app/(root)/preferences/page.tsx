@@ -33,8 +33,27 @@ export default function Preferences() {
     )
   }
 
-  const handleSave = () => {
-    console.log('Saved preferences:', selectedInterests)
+  const handleSave = async () => {
+    try {
+      const res = await fetch('/api/preferences', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+              email: session?.user?.email,
+              preferences: selectedInterests,
+          }),
+      });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert(data.message);
+        } else {
+            alert(data.error);
+        }
+      } catch (error) {
+          console.error("Error updating preferences:", error);
+          alert("Failed to update preferences");
+      }
   }
 
   return (
