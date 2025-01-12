@@ -55,3 +55,49 @@ export async function POST(req: Request) {
         );
     }
 }
+
+// GET handler: Fetch user preferences
+export async function GET(req: Request) {
+    try {
+        // Extract email from query parameters
+        const url = new URL(req.url);
+        const email = url.searchParams.get("email");
+
+        // Validate email
+        if (!email) {
+            return NextResponse.json(
+                { error: "Invalid request. `email` query parameter is required." },
+                { status: 400 }
+            );
+        }
+
+        // Connect to the database
+        const client = await getClient();
+        const db = client.db(DB_NAME);
+        const users = db.collection("Users");
+
+        // Find the user
+        const user = await users.findOne({ email });
+        if (!user) {
+            return NextResponse.json(
+                { error: "User not found." },
+                { status: 404 }
+            );
+        }
+
+        // Retrieve user preferences (e.g., tagHistory)
+        const preferences = user.preferences || [];
+
+        // Return the preferences
+        return NextResponse.json({
+            message: "User preferences fetched successfully.",
+            preferences,
+        });
+    } catch (error) {
+        console.error("Error fetching user preferences:", error);
+        return NextResponse.json(
+            { error: "Failed to fetch user preferences." },
+            { status: 500 }
+        );
+    }
+}

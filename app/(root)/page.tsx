@@ -69,8 +69,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isLoading, hasMore])
 
-  console.log(session)
-
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">
@@ -78,7 +76,7 @@ export default function Home() {
       </h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {articles.map((article, index) => (
-          <NewsCard key={index} article={article} />
+          <NewsCard key={index} article={article} session={session} />
         ))}
       </div>
       {isLoading && <LoadingSpinner />}
