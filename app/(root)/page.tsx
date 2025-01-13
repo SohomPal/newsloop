@@ -26,7 +26,14 @@ export default function Home() {
     async function fetchNews() {
       try {
         setIsLoading(true)
-        const response = await fetch(`api/news?page=${page}`)
+        const email = session?.user?.email; // Retrieve the user's email from the session
+
+        const url = email 
+            ? `/api/news?page=${page}&email=${encodeURIComponent(email)}` 
+            : `/api/news?page=${page}`;
+
+        const response = await fetch(url);
+        
         if (!response.ok) {
           throw new Error('Failed to fetch news')
         }

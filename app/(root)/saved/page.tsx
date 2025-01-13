@@ -39,7 +39,7 @@ export default function SavedArticles() {
 
   return (
     <AuthCheck>
-      <div className="container mx-auto px-4 py-8">
+      
         <h1 className="text-3xl font-bold mb-6">Your Saved Articles</h1>
         {isLoading ? (
           <div className="flex justify-center">
@@ -58,7 +58,7 @@ export default function SavedArticles() {
             You haven't saved any articles yet.
           </p>
         )}
-      </div>
+
     </AuthCheck>
   )
 }

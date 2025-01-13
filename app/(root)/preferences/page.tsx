@@ -9,14 +9,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AuthCheck } from '@/components/auth-check'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
-import { useToast } from '@/hooks/use-toast'
-
+import { useToast } from "@/hooks/use-toast"
 
 export default function Preferences() {
   const { data: session } = useSession()
   const [interests, setInterests] = useState(["Sports", "Business", "Technology", "Travel", "Nation", "Entertainment", "Politics", "Health"])
   const [selectedInterests, setSelectedInterests] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false); // Added isSaving state
   const { toast } = useToast()
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export default function Preferences() {
   }
 
   const handleSave = async () => {
+    setIsSaving(true); // Added to manage saving state
     try {
       const res = await fetch('/api/preferences', {
         method: 'POST',
@@ -78,24 +79,26 @@ export default function Preferences() {
       const data = await res.json();
       if (res.ok) {
         toast({
-          title: "Success",
-          description: "Your preferences have been updated.",
+          title: "Preferences Updated",
+          description: "Your news preferences have been successfully saved.",
           variant: "default",
         })
       } else {
         toast({
-          title: "Error",
-          description: data.error || "Failed to update preferences.",
+          title: "Update Failed",
+          description: data.error || "Unable to save preferences. Please try again.",
           variant: "destructive",
         })
       }
     } catch (error) {
       console.error("Error updating preferences:", error);
       toast({
-        title: "Error",
-        description: "An error occurred while updating preferences.",
+        title: "Update Error",
+        description: "An unexpected error occurred. Please try again later.",
         variant: "destructive",
       })
+    } finally {
+      setIsSaving(false); // Added to manage saving state
     }
   }
 
@@ -151,7 +154,13 @@ export default function Preferences() {
                         </Badge>
                       ))}
                     </div>
-                    <Button onClick={handleSave} className="w-full">Save Preferences</Button>
+                    <Button 
+                      onClick={handleSave} 
+                      className="w-full"
+                      disabled={isSaving} // Updated to use isSaving state
+                    >
+                      {isSaving ? "Saving..." : "Save Preferences"}
+                    </Button>
                   </>
                 )}
               </CardContent>
