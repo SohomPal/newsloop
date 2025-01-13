@@ -2,7 +2,6 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import { getServerSession, Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 import authOptions from "@/pages/api/auth/[...nextauth].js";
 import ClientWrapper from '@/components/ClientWrapper';
 

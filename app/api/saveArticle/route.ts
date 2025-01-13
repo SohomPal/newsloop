@@ -60,7 +60,7 @@ export async function POST(req: Request) {
 
         if (isSaved) {
             // If the article is already saved, remove it from user's saved list
-            // @ts-ignore
+            // @ts-expect-error
             const tagUpdates = tags.reduce((updates, tag) => {
                 updates[`tagHistory.${tag}`] = -1; // Decrement each tag by 1
                 return updates;
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
             );
         } else {
             // If the article is not saved, add it to user's saved list
-            // @ts-ignore
+            // @ts-expect-error
             const tagUpdates = tags.reduce((updates, tag) => {
                 updates[`tagHistory.${tag}`] = 1; // Increment each tag by 1
                 return updates;

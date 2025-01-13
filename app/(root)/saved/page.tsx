@@ -55,7 +55,7 @@ export default function SavedArticles() {
           </div>
         ) : (
           <p className="text-center text-muted-foreground mt-8">
-            You haven't saved any articles yet.
+            You haven&apos;t saved any articles yet.
           </p>
         )}
 

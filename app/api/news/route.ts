@@ -10,7 +10,7 @@ let client: MongoClient | null = null;
 
 // Cache structures
 let articlesCache: { articles: Article[]; lastUpdated: number } = { articles: [], lastUpdated: 0 };
-let personalizedCache: Record<string, { articles: Article[]; lastUpdated: number }> = {};
+const personalizedCache: Record<string, { articles: Article[]; lastUpdated: number }> = {};
 
 // User type definition
 type User = {

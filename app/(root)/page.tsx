@@ -89,7 +89,7 @@ export default function Home() {
       {isLoading && <LoadingSpinner />}
       {!hasMore && articles.length > 0 && (
         <p className="mt-6 text-center text-gray-500">
-          You've reached the end of the feed.
+          You&apos;ve reached the end of the feed.
         </p>
       )}
       {!hasMore && articles.length === 0 && (

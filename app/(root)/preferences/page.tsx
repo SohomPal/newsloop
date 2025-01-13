@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast"
 
 export default function Preferences() {
   const { data: session } = useSession()
-  const [interests, setInterests] = useState(["Sports", "Business", "Technology", "Travel", "Nation", "Entertainment", "Politics", "Health"])
+  const [interests] = useState(["Sports", "Business", "Technology", "Travel", "Nation", "Entertainment", "Politics", "Health"])
   const [selectedInterests, setSelectedInterests] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false); // Added isSaving state

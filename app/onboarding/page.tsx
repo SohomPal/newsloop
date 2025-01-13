@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -13,7 +13,7 @@ const topics = [
 ]
 
 export default function Onboarding() {
-  const { data: session, update } = useSession()
+  const { data: session } = useSession()
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [selectedTopics, setSelectedTopics] = useState<string[]>([])
@@ -60,7 +60,7 @@ export default function Onboarding() {
     // Welcome Slide
     <div key="welcome" className="text-center">
       <h1 className="text-5xl font-bold mb-6 text-white">Welcome to NewsLoop, {session?.user?.name?.split(" ")[0]}!</h1>
-      <p className="text-xl mb-8 text-white">We're excited to have you on board. Let's get you set up with a personalized news experience.</p>
+      <p className="text-xl mb-8 text-white">We&apos;re excited to have you on board. Let&apos;s get you set up with a personalized news experience.</p>
       <Button onClick={() => setStep(1)} size="lg" className="bg-white text-purple-600 hover:bg-purple-100">Get Started</Button>
     </div>,
 
