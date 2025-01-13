@@ -72,6 +72,7 @@ export const authOptions = {
         token.email = user.email || token.email;
         token.isNewUser = user.isNewUser; // Store isNewUser flag in the token
       }
+      user.isNewUser = false
       return token;
     },
     async redirect({ baseUrl }) {
@@ -90,7 +91,8 @@ export const authOptions = {
     strategy: "jwt",
   },
   jwt: {
-    secret: process.env.NEXTAUTH_JWT_SECRET,
+    // secret: process.env.NEXTAUTH_JWT_SECRET,
+    encryption: false
   },
   
 };
