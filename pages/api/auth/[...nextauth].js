@@ -26,7 +26,8 @@ async function createUserIfNotExists(user) {
         image: user.image,
         createdAt: new Date(),
         preferences: [],
-        interactionHistory: []
+        interactionHistory: [],
+        newUser: true
       };
       await usersCollection.insertOne(newUser);
       return true
@@ -54,15 +55,13 @@ export const authOptions = {
   callbacks: {
     async signIn({ user }) {
       // Create user in database if not exists
-      const isNewUser = await createUserIfNotExists(user);
-      user.isNewUser = isNewUser; // Pass the flag to the JWT
+      await createUserIfNotExists(user);
       return true;
     },
     async session({ session, token }) {
       // Attach additional data to the session
       session.user.id = token.id;
       session.user.email = token.email;
-      session.user.isNewUser = token.isNewUser;
       return session;
     },
     async jwt({ token, user }) {
@@ -70,13 +69,11 @@ export const authOptions = {
       if (user) {
         token.id = user.id || token.id;
         token.email = user.email || token.email;
-        token.isNewUser = user.isNewUser; // Store isNewUser flag in the token
       }
-      user.isNewUser = false
       return token;
     },
     async redirect({ baseUrl }) {
-      return baseUrl;
+      return `${baseUrl}/redirect`;
     },
   },
 
@@ -91,8 +88,7 @@ export const authOptions = {
     strategy: "jwt",
   },
   jwt: {
-    // secret: process.env.NEXTAUTH_JWT_SECRET,
-    encryption: false
+    secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   
 };

@@ -30,7 +30,6 @@ export default function Preferences() {
           
           if (response.ok) {
             const data = await response.json()
-            console.log('Response:', data)
             setSelectedInterests(data.preferences || [])
           } else {
             console.error('Failed to fetch preferences')

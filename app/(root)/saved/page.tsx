@@ -24,7 +24,7 @@ export default function SavedArticles() {
           throw new Error('Failed to fetch saved articles')
         }
         const data = await response.json()
-        console.log('Fetched saved articles:', data.articles) // Add this line for debugging
+        // console.log('Fetched saved articles:', data.articles) // Add this line for debugging
         setSavedArticles(data.articles)
       } catch (err) {
         console.error('Error fetching saved articles:', err)

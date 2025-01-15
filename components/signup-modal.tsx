@@ -11,12 +11,12 @@ interface SignUpModalProps {
 
 export function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
   const handleGoogleSignIn = async () => {
-    console.log('Sign in with Google');
+    // console.log('Sign in with Google');
     await signIn('google'); // Redirects to homepage after successful sign-in
   };
 
   const handleDiscordSignIn = async () => {
-    console.log('Sign in with Discord');
+    // console.log('Sign in with Discord');
     await signIn('discord'); 
   };
 

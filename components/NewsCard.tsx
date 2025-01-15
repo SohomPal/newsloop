@@ -44,7 +44,6 @@ export function NewsCard({ article, session, saved = false }: NewsCardProps) {
 
   const handleArticleClick = async () => {
     window.open(article.url, '_blank', 'noopener,noreferrer')
-    console.log(article.tags)
 
     const res = await fetch('/api/updateUserTags', {
       method: 'POST',
@@ -54,9 +53,6 @@ export function NewsCard({ article, session, saved = false }: NewsCardProps) {
           tags: article.topics,
       }),
     });
-
-    console.log('Article clicked:', article.title)
-    console.log(res)
   }
 
   const handleSaveClick = async (e: React.MouseEvent) => {
